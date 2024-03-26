@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: 'Yandex Eats Analogue'
+
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/yandexEats_analogue'
+    username: 'postgres'
+    password: '0000'
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+server:
+  port: 8081
