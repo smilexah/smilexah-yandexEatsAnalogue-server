@@ -23,6 +23,7 @@ public class OrderDTO {
     private String deliveryMethod;
     private String deliveryInstructions;
     private Integer deliveryTimeActual;
-
-//    private Set<PromotionDTO> promotions;
+    private Set<OrderItemDTO> orderItems;
+    private Set<OrderPromotionDTO> orderPromotions;
+    private Set<OrderDeliveryDTO> orderDeliveries;
 }

@@ -21,21 +21,37 @@ public class OrderPromotionController {
     @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
+    @GetMapping
+    public ResponseEntity<?> getAllOrderPromotions() {
+        return new ResponseEntity<>(orderPromotionService.findAllOrderPromotions().stream()
+                .map(orderPromotion -> modelMapperUtil.toOrderPromotionDTO(orderPromotion))
+                .toArray(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{orderPromotionId}")
+    public ResponseEntity<OrderPromotionDTO> getOrderPromotionById(@PathVariable Long orderPromotionId) {
+        return orderPromotionService.findOrderPromotionById(orderPromotionId)
+                .map(orderPromotion -> new ResponseEntity<>(modelMapperUtil.toOrderPromotionDTO(orderPromotion),
+                        HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
     public ResponseEntity<OrderPromotionDTO> createOrderPromotion(@RequestBody OrderPromotionDTO orderPromotionDTO) {
-        OrderPromotion orderPromotion = modelMapperUtil.toOrderPromotionEntity(orderPromotionDTO);
-        OrderPromotion savedOrderPromotion = orderPromotionService.saveOrderPromotion(orderPromotion);
-        return new ResponseEntity<>(modelMapperUtil.toOrderPromotionDTO(savedOrderPromotion), HttpStatus.CREATED);
+        orderPromotionService.saveOrderPromotion(modelMapperUtil.map(orderPromotionDTO, OrderPromotionDTO.class));
+        return new ResponseEntity<>(orderPromotionDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderPromotionId}")
-    public ResponseEntity<OrderPromotionDTO> updateOrderPromotion(@PathVariable Long orderPromotionId, @RequestBody OrderPromotionDTO orderPromotionDTO) {
-        return orderPromotionService.findOrderPromotionById(orderPromotionId)
-                .map(existingOrderPromotion -> {
-                    modelMapperUtil.updateOrderPromotionFromDTO(orderPromotionDTO, existingOrderPromotion);
-                    OrderPromotion updatedOrderPromotion = orderPromotionService.saveOrderPromotion(existingOrderPromotion);
-                    return ResponseEntity.ok(modelMapperUtil.toOrderPromotionDTO(updatedOrderPromotion));
-                })
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<OrderPromotionDTO> updateOrderPromotion(@PathVariable Long orderPromotionId,
+            @RequestBody OrderPromotionDTO orderPromotionDTO) {
+        orderPromotionService.updateOrderPromotion(orderPromotionDTO, orderPromotionId);
+        return new ResponseEntity<>(orderPromotionDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{orderPromotionId}")
+    public ResponseEntity<Void> deleteOrderPromotion(@PathVariable Long orderPromotionId) {
+        orderPromotionService.deleteOrderPromotion(orderPromotionId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

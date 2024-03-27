@@ -1,6 +1,5 @@
 package sdu.edu.kz.YandexEatsAnalogue.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderPromotion {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderPromotionId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

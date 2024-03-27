@@ -26,11 +26,9 @@ public class OrderItemController {
 
     @GetMapping
     public ResponseEntity<List<OrderItemDTO>> getAllOrderItems() {
-        List<OrderItem> orderItems = orderItemService.findAllOrderItems();
-        List<OrderItemDTO> orderItemDTOs = orderItems.stream()
+        return new ResponseEntity<>(orderItemService.findAllOrderItems().stream()
                 .map(orderItem -> modelMapperUtil.map(orderItem, OrderItemDTO.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(orderItemDTOs);
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{orderItemId}")
@@ -42,20 +40,17 @@ public class OrderItemController {
 
     @PostMapping
     public ResponseEntity<OrderItemDTO> createOrderItem(@RequestBody OrderItemDTO orderItemDTO) {
-        OrderItem orderItemRequest = modelMapperUtil.map(orderItemDTO, OrderItem.class);
-        OrderItem orderItem = orderItemService.saveOrderItem(orderItemRequest);
-        return new ResponseEntity<>(modelMapperUtil.map(orderItem, OrderItemDTO.class), HttpStatus.CREATED);
+        orderItemService.saveOrderItem(modelMapperUtil.map(orderItemDTO, OrderItemDTO.class));
+        return new ResponseEntity<>(orderItemDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderItemId}")
-    public ResponseEntity<OrderItemDTO> updateOrderItem(@PathVariable Long orderItemId, @RequestBody OrderItemDTO orderItemDTO) {
+    public ResponseEntity<OrderItemDTO> updateOrderItem(@PathVariable Long orderItemId,
+            @RequestBody OrderItemDTO orderItemDTO) {
         return orderItemService.findOrderItemById(orderItemId)
                 .map(orderItem -> {
-                    orderItem.setQuantity(orderItemDTO.getQuantity());
-                    orderItem.setPriceAtOrderTime(orderItemDTO.getPriceAtOrderTime());
-
-                    OrderItem updatedOrderItem = orderItemService.saveOrderItem(orderItem);
-                    return ResponseEntity.ok(modelMapperUtil.map(updatedOrderItem, OrderItemDTO.class));
+                    orderItemService.updateOrderItem(orderItemDTO, orderItemId);
+                    return new ResponseEntity<>(orderItemDTO, HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

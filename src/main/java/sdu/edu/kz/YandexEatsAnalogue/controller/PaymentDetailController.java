@@ -21,20 +21,36 @@ public class PaymentDetailController {
     @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
-    @PutMapping("/{paymentId}")
-    public ResponseEntity<PaymentDetailDTO> updatePaymentDetail(@PathVariable Long paymentId, @RequestBody PaymentDetailDTO paymentDetailDTO) {
-        return paymentDetailService.findPaymentDetailById(paymentId)
-                .map(paymentDetail -> {
-                    // Manual mapping fields
-                    paymentDetail.setAmount(paymentDetailDTO.getAmount());
-                    paymentDetail.setPaymentMethod(paymentDetailDTO.getPaymentMethod());
-                    paymentDetail.setPaymentStatus(paymentDetailDTO.getPaymentStatus());
-                    paymentDetail.setTransactionID(paymentDetailDTO.getTransactionID());
-                    paymentDetail.setPaymentDateTime(paymentDetailDTO.getPaymentDateTime());
+    @GetMapping
+    public ResponseEntity<?> getAllPaymentDetails() {
+        return new ResponseEntity<>(paymentDetailService.findAllPaymentDetails().stream()
+                .map(paymentDetail -> modelMapperUtil.toPaymentDetailDTO(paymentDetail)).toArray(), HttpStatus.OK);
+    }
 
-                    PaymentDetail updatedPaymentDetail = paymentDetailService.savePaymentDetail(paymentDetail);
-                    return ResponseEntity.ok(modelMapperUtil.toPaymentDetailDTO(updatedPaymentDetail));
-                })
+    @GetMapping("/{paymentId}")
+    public ResponseEntity<PaymentDetailDTO> getPaymentDetailById(@PathVariable Long paymentId) {
+        return paymentDetailService.findPaymentDetailById(paymentId)
+                .map(paymentDetail -> new ResponseEntity<>(modelMapperUtil.toPaymentDetailDTO(paymentDetail),
+                        HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping
+    public ResponseEntity<PaymentDetailDTO> createPaymentDetail(@RequestBody PaymentDetailDTO paymentDetailDTO) {
+        paymentDetailService.savePaymentDetail(modelMapperUtil.map(paymentDetailDTO, PaymentDetailDTO.class));
+        return new ResponseEntity<>(paymentDetailDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{paymentId}")
+    public ResponseEntity<PaymentDetailDTO> updatePaymentDetail(@PathVariable Long paymentId,
+            @RequestBody PaymentDetailDTO paymentDetailDTO) {
+        paymentDetailService.updatePaymentDetail(paymentDetailDTO, paymentId);
+        return new ResponseEntity<>(paymentDetailDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{paymentId}")
+    public ResponseEntity<Void> deletePaymentDetail(@PathVariable Long paymentId) {
+        paymentDetailService.deletePaymentDetail(paymentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

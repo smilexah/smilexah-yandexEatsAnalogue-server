@@ -1,16 +1,19 @@
 package sdu.edu.kz.YandexEatsAnalogue.service;
 
 import org.springframework.stereotype.Service;
+import sdu.edu.kz.YandexEatsAnalogue.dto.OrderItemDTO;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
+import sdu.edu.kz.YandexEatsAnalogue.entity.OrderItem;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface RestaurantService {
-    void createRestaurant(Restaurant restaurant);
-    void updateRestaurant(Restaurant restaurant);
-    void deleteRestaurant(Long restaurantId);
-    Restaurant getRestaurant(Long restaurantId);
-    List<Restaurant> getAllRestaurants();
+    List<Restaurant> findAllRestaurant();
+    Optional<Restaurant> findRestaurantById(Long id);
+    void saveRestaurant(RestaurantDTO restaurantDTO);
+    void updateRestaurant(RestaurantDTO restaurantDTO, Long id);
+    void deleteRestaurant(Long id);
 }

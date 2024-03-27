@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderService;
@@ -25,25 +26,32 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        List<OrderDTO> orderDTOs = orders.stream()
+        return new ResponseEntity<>(orderService.getAllOrders().stream()
                 .map(order -> modelMapperUtil.map(order, OrderDTO.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(orderDTOs);
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long orderId) {
-        return orderService.getOrderById(orderId)
+        return orderService.findOrderById(orderId)
                 .map(order -> ResponseEntity.ok(modelMapperUtil.map(order, OrderDTO.class)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-        Order orderRequest = modelMapperUtil.map(orderDTO, Order.class);
-        Order order = orderService.saveOrder(orderRequest);
-        return new ResponseEntity<>(modelMapperUtil.map(order, OrderDTO.class), HttpStatus.CREATED);
+        orderService.saveOrder(orderDTO);
+        return new ResponseEntity<>(orderDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
+        return orderService.findOrderById(orderId)
+                .map(order -> {
+                    orderService.updateOrder(orderDTO, orderId);
+                    return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{orderId}")
@@ -51,6 +59,4 @@ public class OrderController {
         orderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }
-
-    // Update methods etc.
 }

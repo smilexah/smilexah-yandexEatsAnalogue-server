@@ -11,8 +11,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class MenuItemDTO {
     private Long menuItemId;
+    private Long restaurantId;
     private String name;
+    private Integer weight;
+    private Integer calories;
     private String description;
     private BigDecimal price;
-    private Boolean isActive;
+    private Boolean isAvailable;
 }

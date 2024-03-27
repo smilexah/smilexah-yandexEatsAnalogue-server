@@ -1,6 +1,7 @@
 package sdu.edu.kz.YandexEatsAnalogue.service;
 
 import org.springframework.stereotype.Service;
+import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantRatingDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 public interface RestaurantRatingService {
     List<RestaurantRating> findAllRatings();
     Optional<RestaurantRating> findRatingById(Long id);
-    RestaurantRating saveRating(RestaurantRating rating);
+    void saveRating(RestaurantRatingDTO ratingDTO);
+    void updateRating(RestaurantRatingDTO ratingDTO, Long id);
     void deleteRating(Long id);
 }

@@ -25,42 +25,34 @@ public class RestaurantController {
 
     @GetMapping
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
-        List<Restaurant> restaurants = restaurantService.getAllRestaurants();
-        List<RestaurantDTO> restaurantDTOs = restaurants.stream()
-                .map(restaurant -> modelMapperUtil.map(restaurant, RestaurantDTO.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(restaurantDTOs);
+        return new ResponseEntity<>(restaurantService.findAllRestaurant().stream()
+                .map(modelMapperUtil::mapToRestaurantDTO)
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable Long id) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
-        RestaurantDTO restaurantDTO = modelMapperUtil.mapToRestaurantDTO(restaurant);
-        return ResponseEntity.ok(restaurantDTO);
-
-//        return restaurantService.getRestaurant(id)
-//                .map(restaurant -> ResponseEntity.ok(modelMapperUtil.map(restaurant, RestaurantDTO.class)))
-//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return restaurantService.findRestaurantById(id)
+                .map(restaurant -> new ResponseEntity<>(modelMapperUtil.mapToRestaurantDTO(restaurant), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     public ResponseEntity<RestaurantDTO> createRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) {
-        Restaurant restaurant = modelMapperUtil.mapToRestaurantEntity(restaurantDTO);
-        restaurantService.createRestaurant(restaurant);
+        restaurantService.saveRestaurant(modelMapperUtil.map(restaurantDTO, RestaurantDTO.class));
         return new ResponseEntity<>(restaurantDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantDTO> updateRestaurant(@PathVariable Long id, @Valid @RequestBody RestaurantDTO restaurantDTO) {
-        Restaurant restaurant = modelMapperUtil.mapToRestaurantEntity(restaurantDTO);
-        restaurant.setId(id);
-        restaurantService.updateRestaurant(restaurant);
-        return ResponseEntity.ok(restaurantDTO);
+    public ResponseEntity<RestaurantDTO> updateRestaurant(@PathVariable Long id,
+            @Valid @RequestBody RestaurantDTO restaurantDTO) {
+        restaurantService.updateRestaurant(restaurantDTO, id);
+        return new ResponseEntity<>(restaurantDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteRestaurant(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

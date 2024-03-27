@@ -27,48 +27,44 @@ public class UserAccountController {
 
     @GetMapping
     public ResponseEntity<List<UserAccountDTO>> getAllUserAccounts() {
-        List<UserAccount> userAccounts = userAccountService.findAllUserAccounts();
-        List<UserAccountDTO> userAccountDTOs = userAccounts.stream()
+        return new ResponseEntity<>(userAccountService.findAllUserAccounts().stream()
                 .map(userAccount -> modelMapperUtil.map(userAccount, UserAccountDTO.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(userAccountDTOs);
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserAccountDTO> getUserAccountById(@PathVariable Long userId) {
         return userAccountService.findUserAccountById(userId)
-                .map(userAccount -> ResponseEntity.ok(modelMapperUtil.map(userAccount, UserAccountDTO.class)))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(userAccount -> new ResponseEntity<>(modelMapperUtil.map(userAccount, UserAccountDTO.class),
+                        HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     public ResponseEntity<UserAccountDTO> createUserAccount(@RequestBody UserAccountDTO userAccountDTO) {
-        UserAccount userAccountRequest = modelMapperUtil.map(userAccountDTO, UserAccount.class);
-        UserAccount newUserAccount = userAccountService.saveUserAccount(userAccountRequest);
-        return new ResponseEntity<>(modelMapperUtil.map(newUserAccount, UserAccountDTO.class), HttpStatus.CREATED);
+        userAccountService.saveUserAccount(modelMapperUtil.map(userAccountDTO, UserAccountDTO.class));
+        return new ResponseEntity<>(userAccountDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserAccountDTO> updateUserAccount(@PathVariable Long userId, @RequestBody UserAccountDTO userAccountDTO) {
+    public ResponseEntity<UserAccountDTO> updateUserAccount(@PathVariable Long userId,
+            @RequestBody UserAccountDTO userAccountDTO) {
         return userAccountService.findUserAccountById(userId)
-                .map(userAccount -> {
-                    userAccount.setEmail(userAccountDTO.getEmail());
-                    userAccount.setPassword(userAccountDTO.getPassword());
-                    userAccount.setRole(userAccountDTO.getRole());
-                    userAccount.setIsActive(userAccountDTO.getIsActive());
-
-                    UserAccount updatedUserAccount = userAccountService.saveUserAccount(userAccount);
-                    return new ResponseEntity<>(modelMapperUtil.map(updatedUserAccount, UserAccountDTO.class), HttpStatus.OK);
+                .map(existingUserAccount -> {
+                    userAccountService.updateUserAccount(userAccountDTO, userId);
+                    return new ResponseEntity<>(modelMapperUtil.map(existingUserAccount, UserAccountDTO.class),
+                            HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUserAccount(@PathVariable Long userId) {
-        if (userAccountService.findUserAccountById(userId).isPresent()) {
-            userAccountService.deleteUserAccount(userId);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        return userAccountService.findUserAccountById(userId)
+                .map(existingUserAccount -> {
+                    userAccountService.deleteUserAccount(userId);
+                    return new ResponseEntity<Void>(HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

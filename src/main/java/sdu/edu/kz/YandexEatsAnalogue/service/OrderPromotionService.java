@@ -1,6 +1,7 @@
 package sdu.edu.kz.YandexEatsAnalogue.service;
 
 import org.springframework.stereotype.Service;
+import sdu.edu.kz.YandexEatsAnalogue.dto.OrderPromotionDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.OrderPromotion;
 
 import java.util.List;
@@ -12,7 +13,9 @@ public interface OrderPromotionService {
 
     Optional<OrderPromotion> findOrderPromotionById(Long id);
 
-    OrderPromotion saveOrderPromotion(OrderPromotion orderPromotion);
+    void saveOrderPromotion(OrderPromotionDTO orderPromotionDTO);
+
+    void updateOrderPromotion(OrderPromotionDTO orderPromotionDTO, Long id);
 
     void deleteOrderPromotion(Long id);
 }

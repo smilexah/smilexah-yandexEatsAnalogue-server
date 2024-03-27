@@ -5,11 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
+import sdu.edu.kz.YandexEatsAnalogue.entity.OrderPromotion;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.repository.RestaurantRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,37 +22,50 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Override
-    public List<Restaurant> getAllRestaurants() {
+    public List<Restaurant> findAllRestaurant() {
         return restaurantRepository.findAll();
     }
 
     @Override
-    public void createRestaurant(Restaurant restaurant) {
+    public Optional<Restaurant> findRestaurantById(Long id) {
+        return Optional.ofNullable(restaurantRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found")));
+    }
+
+    @Override
+    public void saveRestaurant(RestaurantDTO restaurantDTO) {
+        Restaurant restaurant = new Restaurant();
+
+        restaurant.setId(restaurantDTO.getRestaurantId());
+
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setAddress(restaurantDTO.getAddress());
+        restaurant.setRating(restaurantDTO.getRating());
+        restaurant.setDeliveryTimeEstimate(restaurantDTO.getDeliveryTimeEstimate());
+        restaurant.setIsActive(restaurantDTO.getIsActive());
+
         restaurantRepository.save(restaurant);
     }
 
     @Override
-    public void updateRestaurant(Restaurant updatedRestaurant) {
-        Restaurant restaurant = restaurantRepository.findById(updatedRestaurant.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + updatedRestaurant.getId() + " not found"));
+    public void updateRestaurant(RestaurantDTO restaurantDTO, Long id) {
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
+        if (restaurantOptional.isEmpty()) {
+            throw new EntityNotFoundException("Restaurant not found");
+        }
+        Restaurant restaurant = restaurantOptional.get();
 
-        restaurant.setName(updatedRestaurant.getName());
-        restaurant.setAddress(updatedRestaurant.getAddress());
-        restaurant.setRating(updatedRestaurant.getRating());
-        restaurant.setDeliveryTimeEstimate(updatedRestaurant.getDeliveryTimeEstimate());
-        restaurant.setIsActive(updatedRestaurant.getIsActive());
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setAddress(restaurantDTO.getAddress());
+        restaurant.setRating(restaurantDTO.getRating());
+        restaurant.setDeliveryTimeEstimate(restaurantDTO.getDeliveryTimeEstimate());
+        restaurant.setIsActive(restaurantDTO.getIsActive());
 
         restaurantRepository.save(restaurant);
     }
 
     @Override
-    public void deleteRestaurant(Long restaurantId) {
-        restaurantRepository.deleteById(restaurantId);
-    }
-
-    @Override
-    public Restaurant getRestaurant(Long restaurantId) {
-        return restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + restaurantId + " not found"));
+    public void deleteRestaurant(Long id) {
+        restaurantRepository.deleteById(id);
     }
 }

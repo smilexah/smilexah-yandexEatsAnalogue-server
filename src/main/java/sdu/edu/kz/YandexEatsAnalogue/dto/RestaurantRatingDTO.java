@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantRatingDTO {
-    private Long ratingId;
-    private Restaurant restaurantId;
-    private Customer customerId;
+    private Long id;
+    private Long restaurantId;
+    private Long customerId;
     private BigDecimal rating;
     private String comment;
     private LocalDateTime createdAt;

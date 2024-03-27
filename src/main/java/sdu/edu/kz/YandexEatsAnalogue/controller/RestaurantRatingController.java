@@ -11,9 +11,6 @@ import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantRatingService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
-import sdu.edu.kz.YandexEatsAnalogue.utils.RestaurantRatingMapperUtil;
-
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/ratings")
@@ -26,33 +23,45 @@ public class RestaurantRatingController {
     @Autowired
     private ModelMapperUtil modelMapperUtil;
 
+    @GetMapping
+    public ResponseEntity<?> getAllRatings() {
+        return new ResponseEntity<>(restaurantRatingService.findAllRatings().stream()
+                .map(restaurantRating -> modelMapperUtil.map(restaurantRating, RestaurantRatingDTO.class))
+                .toArray(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{ratingId}")
+    public ResponseEntity<RestaurantRatingDTO> getRatingById(@PathVariable Long ratingId) {
+        return restaurantRatingService.findRatingById(ratingId)
+                .map(restaurantRating -> new ResponseEntity<>(
+                        modelMapperUtil.map(restaurantRating, RestaurantRatingDTO.class),
+                        HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
     @PostMapping
     public ResponseEntity<RestaurantRatingDTO> createRating(@RequestBody RestaurantRatingDTO ratingDTO) {
-        RestaurantRating restaurantRating = new RestaurantRating();
-        restaurantRating.setRating(ratingDTO.getRating());
-        restaurantRating.setComment(ratingDTO.getComment());
-        restaurantRating.setCreatedAt(ratingDTO.getCreatedAt());
-
-        // Fetch the Restaurant entity using reviewDTO.getRestaurantId()
-        Restaurant restaurant = restaurantRatingService.findRatingById(ratingDTO.getRestaurantId().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant not found with id " + ratingDTO.getRestaurantId())).getRestaurant();
-        restaurantRating.setRestaurant(restaurant);
-
-        restaurantRatingService.saveRating(restaurantRating);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        restaurantRatingService.saveRating(modelMapperUtil.map(ratingDTO, RestaurantRatingDTO.class));
+        return new ResponseEntity<>(ratingDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{ratingId}")
-    public ResponseEntity<RestaurantRatingDTO> updateRating(@PathVariable Long ratingId, @RequestBody RestaurantRatingDTO ratingDTO) {
+    public ResponseEntity<RestaurantRatingDTO> updateRating(@PathVariable Long ratingId,
+            @RequestBody RestaurantRatingDTO ratingDTO) {
         return restaurantRatingService.findRatingById(ratingId)
                 .map(existingRating -> {
-                    existingRating.setRating(ratingDTO.getRating());
-                    existingRating.setComment(ratingDTO.getComment());
-                    // Note: createdAt should generally not be updated, so it's omitted here
-                    RestaurantRating updatedRating = restaurantRatingService.saveRating(existingRating);
-                    return ResponseEntity.ok(modelMapperUtil.map(updatedRating, RestaurantRatingDTO.class));
+                    restaurantRatingService.updateRating(ratingDTO, ratingId);
+                    return new ResponseEntity<>(ratingDTO, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/{ratingId}")
+    public ResponseEntity<Void> deleteRating(@PathVariable Long ratingId) {
+        return restaurantRatingService.findRatingById(ratingId)
+                .map(existingRating -> {
+                    restaurantRatingService.deleteRating(ratingId);
+                    return new ResponseEntity<Void>(HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
 import sdu.edu.kz.YandexEatsAnalogue.entity.UserAccount;
 import sdu.edu.kz.YandexEatsAnalogue.repository.CustomerRepository;
@@ -34,18 +35,29 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public Customer saveCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        customer.setCustomerId(customer.getCustomerId());
+        customer.setName(customerDTO.getName());
+        customer.setPhone(customerDTO.getPhone());
+        customer.setAddress(customerDTO.getAddress());
+        UserAccount userAccount = userAccountRepository.findById(customerDTO.getUserAccountId()).orElseThrow(() -> new EntityNotFoundException("User account not found"));
+        customer.setUserAccount(userAccount);
+        userAccount.setCustomer(customer);
+
         return customerRepository.save(customer);
     }
 
     @Override
-    public void createOrUpdateCustomer(Customer customer, Long userId) {
-        UserAccount userAccount = userAccountRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("UserAccount not found with ID: " + userId));
-
-        customer.setUserAccount(userAccount);
-
-        // Now, when you save the customer, the user_id should be non-null
+    public void updateCustomer(CustomerDTO customerDTO, Long userId) {
+        Optional<Customer> customerOptional = customerRepository.findById(userId);
+        if (customerOptional.isEmpty()) {
+            throw new EntityNotFoundException("Customer not found");
+        }
+        Customer customer = customerOptional.get();
+        customer.setName(customerDTO.getName());
+        customer.setPhone(customerDTO.getPhone());
+        customer.setAddress(customerDTO.getAddress());
         customerRepository.save(customer);
     }
 

@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserAccountService {
     List<UserAccount> findAllUserAccounts();
     Optional<UserAccount> findUserAccountById(Long id);
-    UserAccount saveUserAccount(UserAccount userAccount);
+    void saveUserAccount(UserAccountDTO userAccountDTO);
+    void updateUserAccount(UserAccountDTO userAccountDTO, Long id);
     void deleteUserAccount(Long id);
 }

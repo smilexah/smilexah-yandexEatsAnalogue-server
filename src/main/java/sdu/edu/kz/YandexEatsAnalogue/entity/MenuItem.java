@@ -24,11 +24,15 @@ public class MenuItem {
     @Column(nullable = false, length = 255)
     private String name;
 
+    private Integer weight;
+
+    private Integer calories;
+
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    private Boolean isActive;
+    private Boolean isAvailable;
 }

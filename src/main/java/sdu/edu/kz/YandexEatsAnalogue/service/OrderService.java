@@ -7,14 +7,12 @@ import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public interface OrderService {
-    void createOrder(Order order);
-    void updateOrder(Order orderDTO);
-    void deleteOrder(Long id);
-    Order getOrder(Long id);
     List<Order> getAllOrders();
-    Optional<Order> getOrderById(Long orderId);
-    Order saveOrder(Order order);
     Optional<Order> findOrderById(Long orderId);
+    void saveOrder(OrderDTO orderDTO);
+    void updateOrder(OrderDTO orderDTO, Long id);
+    void deleteOrder(Long id);
 }

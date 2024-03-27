@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Service
 public interface PromotionService {
-    Promotion savePromotion(Promotion promotion);
-//    void updatePromotion(PromotionDTO promotionDTO);
-    void deletePromotion(Long id);
-    Optional<Promotion> findPromotionById(Long id);
     List<Promotion> findAllPromotions();
+    Optional<Promotion> findPromotionById(Long id);
+    void savePromotion(PromotionDTO promotionDTO);
+    void updatePromotion(PromotionDTO promotionDTO, Long promotionId);
+    void deletePromotion(Long id);
 }

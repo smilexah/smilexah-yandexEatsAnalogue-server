@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityNotFoundException;
+import sdu.edu.kz.YandexEatsAnalogue.dto.PaymentDetailDTO;
+import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.PaymentDetail;
 import sdu.edu.kz.YandexEatsAnalogue.repository.PaymentDetailRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.PaymentDetailService;
@@ -14,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PaymentDetailServiceImpl implements PaymentDetailService{
+public class PaymentDetailServiceImpl implements PaymentDetailService {
     @Autowired
     private PaymentDetailRepository paymentDetailRepository;
 
@@ -29,8 +33,44 @@ public class PaymentDetailServiceImpl implements PaymentDetailService{
     }
 
     @Override
-    public PaymentDetail savePaymentDetail(PaymentDetail paymentDetail) {
-        return paymentDetailRepository.save(paymentDetail);
+    public void savePaymentDetail(PaymentDetailDTO paymentDetailDTO) {
+        PaymentDetail paymentDetail = new PaymentDetail();
+        paymentDetail.setPaymentId(paymentDetailDTO.getPaymentId());
+
+        Order order = new Order();
+        order.setOrderId(paymentDetailDTO.getOrderId());
+        paymentDetail.setOrder(order);
+
+        paymentDetail.setAmount(paymentDetailDTO.getAmount());
+        paymentDetail.setPaymentMethod(paymentDetailDTO.getPaymentMethod());
+        paymentDetail.setPaymentStatus(paymentDetailDTO.getPaymentStatus());
+        paymentDetail.setTransactionID(paymentDetailDTO.getTransactionID());
+        paymentDetail.setPaymentDateTime(paymentDetailDTO.getPaymentDateTime());
+
+        paymentDetailRepository.save(paymentDetail);
+    }
+
+    @Override
+    public void updatePaymentDetail(PaymentDetailDTO paymentDetailDTO, Long id) {
+        Optional<PaymentDetail> paymentDetailOptional = paymentDetailRepository.findById(id);
+        if (paymentDetailOptional.isEmpty()) {
+            throw new EntityNotFoundException("Payment detail not found");
+        }
+        PaymentDetail paymentDetail = paymentDetailOptional.get();
+
+        paymentDetail.setPaymentId(paymentDetailDTO.getPaymentId());
+
+        Order order = new Order();
+        order.setOrderId(paymentDetailDTO.getOrderId());
+        paymentDetail.setOrder(order);
+
+        paymentDetail.setAmount(paymentDetailDTO.getAmount());
+        paymentDetail.setPaymentMethod(paymentDetailDTO.getPaymentMethod());
+        paymentDetail.setPaymentStatus(paymentDetailDTO.getPaymentStatus());
+        paymentDetail.setTransactionID(paymentDetailDTO.getTransactionID());
+        paymentDetail.setPaymentDateTime(paymentDetailDTO.getPaymentDateTime());
+
+        paymentDetailRepository.save(paymentDetail);
     }
 
     @Override

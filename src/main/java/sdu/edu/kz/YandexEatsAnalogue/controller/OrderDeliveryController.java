@@ -18,25 +18,41 @@ public class OrderDeliveryController {
     @Autowired
     private final OrderDeliveryService orderDeliveryService;
 
-    // Assume CustomMapper contains static methods for converting between entities and DTOs
+    // Assume CustomMapper contains static methods for converting between entities
+    // and DTOs
     @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
-    @PutMapping("/{deliveryId}")
-    public ResponseEntity<OrderDeliveryDTO> updateOrderDelivery(@PathVariable Long deliveryId, @RequestBody OrderDeliveryDTO orderDeliveryDTO) {
-        return orderDeliveryService.findOrderDeliveryById(deliveryId)
-                .map(orderDelivery -> {
-                    // Manually update fields
-                    // Assuming you have methods to convert IDs to entities
-                    orderDelivery.setDeliveryPartner(modelMapperUtil.convertPartnerIdToEntity(orderDeliveryDTO.getPartnerId()));
-                    orderDelivery.setOrder(modelMapperUtil.convertOrderIdToEntity(orderDeliveryDTO.getOrderId()));
-                    orderDelivery.setPickupTime(orderDeliveryDTO.getPickupTime());
-                    orderDelivery.setDeliveryTime(orderDeliveryDTO.getDeliveryTime());
-                    orderDelivery.setStatus(orderDeliveryDTO.getStatus());
+    @GetMapping
+    public ResponseEntity<?> getAllOrderDeliveries() {
+        return new ResponseEntity<>(orderDeliveryService.findAllOrderDeliveries().stream()
+                .map(orderDelivery -> modelMapperUtil.toOrderDeliveryDTO(orderDelivery)).toArray(), HttpStatus.OK);
+    }
 
-                    OrderDelivery updatedOrderDelivery = orderDeliveryService.saveOrderDelivery(orderDelivery);
-                    return ResponseEntity.ok(modelMapperUtil.toOrderDeliveryDTO(updatedOrderDelivery));
-                })
+    @GetMapping("/{deliveryId}")
+    public ResponseEntity<OrderDeliveryDTO> getOrderDeliveryById(@PathVariable Long deliveryId) {
+        return orderDeliveryService.findOrderDeliveryById(deliveryId)
+                .map(orderDelivery -> new ResponseEntity<>(modelMapperUtil.toOrderDeliveryDTO(orderDelivery),
+                        HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping
+    public ResponseEntity<OrderDeliveryDTO> createOrderDelivery(@RequestBody OrderDeliveryDTO orderDeliveryDTO) {
+        orderDeliveryService.saveOrderDelivery(orderDeliveryDTO);
+        return new ResponseEntity<>(orderDeliveryDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{deliveryId}")
+    public ResponseEntity<OrderDeliveryDTO> updateOrderDelivery(@PathVariable Long deliveryId,
+            @RequestBody OrderDeliveryDTO orderDeliveryDTO) {
+        orderDeliveryService.updateOrderDelivery(orderDeliveryDTO, deliveryId);
+        return new ResponseEntity<>(orderDeliveryDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{deliveryId}")
+    public ResponseEntity<Void> deleteOrderDelivery(@PathVariable Long deliveryId) {
+        orderDeliveryService.deleteOrderDelivery(deliveryId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

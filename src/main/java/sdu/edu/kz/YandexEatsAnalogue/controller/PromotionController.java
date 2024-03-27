@@ -21,21 +21,37 @@ public class PromotionController {
     @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
+    @GetMapping
+    public ResponseEntity<?> getAllPromotions() {
+        return new ResponseEntity<>(promotionService.findAllPromotions().stream()
+                .map(promotion -> modelMapperUtil.toPromotionDTO(promotion))
+                .toArray(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{promotionId}")
+    public ResponseEntity<PromotionDTO> getPromotionById(@PathVariable Long promotionId) {
+        return promotionService.findPromotionById(promotionId)
+                .map(promotion -> new ResponseEntity<>(modelMapperUtil.toPromotionDTO(promotion),
+                        HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
     public ResponseEntity<PromotionDTO> createPromotion(@RequestBody PromotionDTO promotionDTO) {
-        Promotion promotion = modelMapperUtil.toPromotionEntity(promotionDTO);
-        Promotion savedPromotion = promotionService.savePromotion(promotion);
-        return new ResponseEntity<>(modelMapperUtil.toPromotionDTO(savedPromotion), HttpStatus.CREATED);
+        promotionService.savePromotion(modelMapperUtil.map(promotionDTO, PromotionDTO.class));
+        return new ResponseEntity<>(promotionDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{promotionId}")
-    public ResponseEntity<PromotionDTO> updatePromotion(@PathVariable Long promotionId, @RequestBody PromotionDTO promotionDTO) {
-        return promotionService.findPromotionById(promotionId)
-                .map(existingPromotion -> {
-                    modelMapperUtil.updatePromotionFromDTO(promotionDTO, existingPromotion);
-                    Promotion updatedPromotion = promotionService.savePromotion(existingPromotion);
-                    return ResponseEntity.ok(modelMapperUtil.toPromotionDTO(updatedPromotion));
-                })
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<PromotionDTO> updatePromotion(@PathVariable Long promotionId,
+            @RequestBody PromotionDTO promotionDTO) {
+        promotionService.updatePromotion(promotionDTO, promotionId);
+        return new ResponseEntity<>(promotionDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{promotionId}")
+    public ResponseEntity<Void> deletePromotion(@PathVariable Long promotionId) {
+        promotionService.deletePromotion(promotionId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

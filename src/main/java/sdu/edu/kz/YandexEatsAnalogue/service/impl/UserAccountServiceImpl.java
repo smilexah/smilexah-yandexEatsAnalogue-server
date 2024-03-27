@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityNotFoundException;
+import sdu.edu.kz.YandexEatsAnalogue.dto.UserAccountDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.UserAccount;
 import sdu.edu.kz.YandexEatsAnalogue.repository.UserAccountRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.UserAccountService;
@@ -17,6 +20,7 @@ import java.util.Optional;
 public class UserAccountServiceImpl implements UserAccountService {
     @Autowired
     private final UserAccountRepository userAccountRepository;
+
     @Override
     public List<UserAccount> findAllUserAccounts() {
         return userAccountRepository.findAll();
@@ -28,8 +32,33 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount saveUserAccount(UserAccount userAccount) {
-        return userAccountRepository.save(userAccount);
+    public void saveUserAccount(UserAccountDTO userAccountDTO) {
+        UserAccount userAccount = new UserAccount();
+
+        userAccount.setUserId(userAccount.getUserId());
+
+        userAccount.setEmail(userAccountDTO.getEmail());
+        userAccount.setPassword(userAccountDTO.getPassword());
+        userAccount.setRole(userAccountDTO.getRole());
+        userAccount.setIsActive(true);
+
+        userAccountRepository.save(userAccount);
+    }
+
+    @Override
+    public void updateUserAccount(UserAccountDTO userAccountDTO, Long id) {
+        Optional<UserAccount> userAccountOptional = userAccountRepository.findById(id);
+        if (userAccountOptional.isEmpty()) {
+            throw new EntityNotFoundException("User account not found");
+        }
+        UserAccount userAccount = userAccountOptional.get();
+
+        userAccount.setEmail(userAccountDTO.getEmail());
+        userAccount.setPassword(userAccountDTO.getPassword());
+        userAccount.setRole(userAccountDTO.getRole());
+        userAccount.setIsActive(userAccountDTO.getIsActive());
+
+        userAccountRepository.save(userAccount);
     }
 
     @Override

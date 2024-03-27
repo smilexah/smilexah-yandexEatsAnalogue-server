@@ -20,6 +20,9 @@ public class Promotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promotionId;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 

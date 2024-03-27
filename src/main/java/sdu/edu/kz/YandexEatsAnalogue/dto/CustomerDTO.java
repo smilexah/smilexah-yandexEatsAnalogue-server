@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CustomerDTO {
     private Long customerId;
-    private UserAccountDTO userAccount;
+    private Long userAccountId;
     private String name;
     private String phone;
     private String address;
