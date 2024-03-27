@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantRatingDTO {
-    private Long id;
     private Long restaurantId;
     private Long customerId;
     private BigDecimal rating;

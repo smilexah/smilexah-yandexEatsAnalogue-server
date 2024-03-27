@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDeliveryDTO;
+import sdu.edu.kz.YandexEatsAnalogue.entity.DeliveryPartner;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.OrderDelivery;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
@@ -37,11 +38,13 @@ public class OrderDeliveryServiceImpl implements OrderDeliveryService {
     public void saveOrderDelivery(OrderDeliveryDTO orderDeliveryDTO) {
         OrderDelivery orderDelivery = new OrderDelivery();
 
-        orderDelivery.setDeliveryId(orderDeliveryDTO.getDeliveryId());
-
         Order order = new Order();
         order.setOrderId(orderDeliveryDTO.getOrderId());
         orderDelivery.setOrder(order);
+
+        DeliveryPartner deliveryPartner = new DeliveryPartner();
+        deliveryPartner.setPartnerId(orderDeliveryDTO.getPartnerId());
+        orderDelivery.setDeliveryPartner(deliveryPartner);
 
         orderDelivery.setPickupTime(orderDeliveryDTO.getPickupTime());
         orderDelivery.setDeliveryTime(orderDeliveryDTO.getDeliveryTime());
@@ -57,7 +60,7 @@ public class OrderDeliveryServiceImpl implements OrderDeliveryService {
             throw new EntityNotFoundException("Order delivery not found");
         }
         OrderDelivery orderDelivery = orderDeliveryOptional.get();
-        orderDelivery.setDeliveryId(orderDeliveryDTO.getDeliveryId());
+
         orderDelivery.setPickupTime(orderDeliveryDTO.getPickupTime());
         orderDelivery.setDeliveryTime(orderDeliveryDTO.getDeliveryTime());
         orderDelivery.setStatus(orderDeliveryDTO.getStatus());

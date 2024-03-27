@@ -35,16 +35,19 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public void saveMenuItem(MenuItemDTO menuItemDTO) {
         MenuItem menuItem = new MenuItem();
-        menuItem.setName(menuItemDTO.getName());
+
 
         Restaurant restaurant = new Restaurant();
         restaurant.setId(menuItemDTO.getRestaurantId());
         menuItem.setRestaurant(restaurant);
 
-        menuItem.setPrice(menuItemDTO.getPrice());
+        menuItem.setName(menuItemDTO.getName());
         menuItem.setWeight(menuItemDTO.getWeight());
         menuItem.setCalories(menuItemDTO.getCalories());
+        menuItem.setDescription(menuItemDTO.getDescription());
+        menuItem.setPrice(menuItemDTO.getPrice());
         menuItem.setIsAvailable(menuItemDTO.getIsAvailable());
+
         menuItemRepository.save(menuItem);
     }
 
@@ -57,15 +60,12 @@ public class MenuItemServiceImpl implements MenuItemService {
         MenuItem menuItem = menuItemOptional.get();
 
         menuItem.setName(menuItemDTO.getName());
-
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(menuItemDTO.getRestaurantId());
-        menuItem.setRestaurant(restaurant);
-
-        menuItem.setPrice(menuItemDTO.getPrice());
         menuItem.setWeight(menuItemDTO.getWeight());
         menuItem.setCalories(menuItemDTO.getCalories());
+        menuItem.setDescription(menuItemDTO.getDescription());
+        menuItem.setPrice(menuItemDTO.getPrice());
         menuItem.setIsAvailable(menuItemDTO.getIsAvailable());
+
         menuItemRepository.save(menuItem);
     }
 

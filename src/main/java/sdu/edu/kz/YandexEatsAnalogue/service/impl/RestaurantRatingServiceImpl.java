@@ -37,8 +37,6 @@ public class RestaurantRatingServiceImpl implements RestaurantRatingService {
     public void saveRating(RestaurantRatingDTO ratingDTO) {
         RestaurantRating restaurantRating = new RestaurantRating();
 
-        restaurantRating.setId(ratingDTO.getId());
-
         Restaurant restaurant = new Restaurant();
         restaurant.setId(ratingDTO.getRestaurantId());
         restaurantRating.setRestaurant(restaurant);

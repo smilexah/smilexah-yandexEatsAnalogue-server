@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDeliveryDTO {
-    private Long deliveryId;
     private Long orderId;
     private Long partnerId;
     private LocalDateTime pickupTime;

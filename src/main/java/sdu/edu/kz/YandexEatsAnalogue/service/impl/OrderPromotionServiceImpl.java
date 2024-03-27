@@ -37,8 +37,6 @@ public class OrderPromotionServiceImpl implements OrderPromotionService {
     public void saveOrderPromotion(OrderPromotionDTO orderPromotionDTO) {
         OrderPromotion orderPromotion = new OrderPromotion();
 
-        orderPromotion.setOrderPromotionId(orderPromotionDTO.getOrderPromotionId());
-
         Order order = new Order();
         order.setOrderId(orderPromotionDTO.getOrderId());
         orderPromotion.setOrder(order);

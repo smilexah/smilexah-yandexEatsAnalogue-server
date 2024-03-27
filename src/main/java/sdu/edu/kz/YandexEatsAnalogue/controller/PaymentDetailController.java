@@ -23,16 +23,14 @@ public class PaymentDetailController {
 
     @GetMapping
     public ResponseEntity<?> getAllPaymentDetails() {
-        return new ResponseEntity<>(paymentDetailService.findAllPaymentDetails().stream()
-                .map(paymentDetail -> modelMapperUtil.toPaymentDetailDTO(paymentDetail)).toArray(), HttpStatus.OK);
+        paymentDetailService.findAllPaymentDetails();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<PaymentDetailDTO> getPaymentDetailById(@PathVariable Long paymentId) {
-        return paymentDetailService.findPaymentDetailById(paymentId)
-                .map(paymentDetail -> new ResponseEntity<>(modelMapperUtil.toPaymentDetailDTO(paymentDetail),
-                        HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        paymentDetailService.findPaymentDetailById(paymentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping

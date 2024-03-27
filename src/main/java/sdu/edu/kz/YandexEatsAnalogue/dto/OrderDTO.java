@@ -13,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
-    private Long orderId;
     private Long customerId;
     private Long restaurantId;
     private LocalDateTime orderTime;

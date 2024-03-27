@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDetailDTO {
-    private Long paymentId;
     private Long orderId;
     private BigDecimal amount;
     private String paymentMethod;

@@ -36,8 +36,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void saveRestaurant(RestaurantDTO restaurantDTO) {
         Restaurant restaurant = new Restaurant();
 
-        restaurant.setId(restaurantDTO.getRestaurantId());
-
         restaurant.setName(restaurantDTO.getName());
         restaurant.setAddress(restaurantDTO.getAddress());
         restaurant.setRating(restaurantDTO.getRating());

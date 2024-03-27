@@ -26,14 +26,15 @@ public class RestaurantController {
     @GetMapping
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
         return new ResponseEntity<>(restaurantService.findAllRestaurant().stream()
-                .map(modelMapperUtil::mapToRestaurantDTO)
+                .map(restaurant -> modelMapperUtil.map(restaurant, RestaurantDTO.class))
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable Long id) {
         return restaurantService.findRestaurantById(id)
-                .map(restaurant -> new ResponseEntity<>(modelMapperUtil.mapToRestaurantDTO(restaurant), HttpStatus.OK))
+                .map(restaurant -> new ResponseEntity<>(modelMapperUtil.map(restaurant, RestaurantDTO.class),
+                        HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PromotionDTO {
-    private Long promotionId;
     private String name;
     private String description;
     private LocalDate startDate;

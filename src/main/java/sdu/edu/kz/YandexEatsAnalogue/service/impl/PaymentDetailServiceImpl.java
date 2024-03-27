@@ -35,7 +35,6 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     @Override
     public void savePaymentDetail(PaymentDetailDTO paymentDetailDTO) {
         PaymentDetail paymentDetail = new PaymentDetail();
-        paymentDetail.setPaymentId(paymentDetailDTO.getPaymentId());
 
         Order order = new Order();
         order.setOrderId(paymentDetailDTO.getOrderId());
@@ -57,8 +56,6 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
             throw new EntityNotFoundException("Payment detail not found");
         }
         PaymentDetail paymentDetail = paymentDetailOptional.get();
-
-        paymentDetail.setPaymentId(paymentDetailDTO.getPaymentId());
 
         Order order = new Order();
         order.setOrderId(paymentDetailDTO.getOrderId());

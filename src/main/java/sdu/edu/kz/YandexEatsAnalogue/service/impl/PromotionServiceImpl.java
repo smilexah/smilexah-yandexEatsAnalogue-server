@@ -35,8 +35,6 @@ public class PromotionServiceImpl implements PromotionService {
     public void savePromotion(PromotionDTO promotionDTO) {
         Promotion promotion = new Promotion();
 
-        promotion.setPromotionId(promotionDTO.getPromotionId());
-
         promotion.setName(promotionDTO.getName());
         promotion.setDescription(promotionDTO.getDescription());
         promotion.setDiscountPercent(promotionDTO.getDiscountPercent());

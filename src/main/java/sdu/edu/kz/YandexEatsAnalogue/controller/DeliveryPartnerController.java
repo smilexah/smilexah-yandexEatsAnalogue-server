@@ -12,6 +12,8 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/deliveryPartners")
 @RequiredArgsConstructor
@@ -26,14 +28,15 @@ public class DeliveryPartnerController {
     @GetMapping
     public ResponseEntity<?> getAllDeliveryPartners() {
         return new ResponseEntity<>(deliveryPartnerService.findAllDeliveryPartners().stream()
-                .map(partner -> modelMapperUtil.toDeliveryPartnerDTO(partner))
-                .toArray(), HttpStatus.OK);
+                .map(partner -> modelMapperUtil.map(partner, DeliveryPartnerDTO.class))
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{partnerId}")
     public ResponseEntity<DeliveryPartnerDTO> getDeliveryPartnerById(@PathVariable Long partnerId) {
         return deliveryPartnerService.findDeliveryPartnerById(partnerId)
-                .map(partner -> new ResponseEntity<>(modelMapperUtil.toDeliveryPartnerDTO(partner), HttpStatus.OK))
+                .map(partner -> new ResponseEntity<>(modelMapperUtil.map(partner, DeliveryPartnerDTO.class),
+                        HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

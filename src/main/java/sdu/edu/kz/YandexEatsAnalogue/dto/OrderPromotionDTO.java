@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderPromotionDTO {
-    private Long orderPromotionId;
     private Long orderId;
     private Long promotionId;
 }
