@@ -1,16 +1,13 @@
 package sdu.edu.kz.YandexEatsAnalogue.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.persistence.EntityNotFoundException;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDeliveryDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.DeliveryPartner;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.OrderDelivery;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.repository.OrderDeliveryRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderDeliveryService;
 

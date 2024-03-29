@@ -1,11 +1,9 @@
 package sdu.edu.kz.YandexEatsAnalogue.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.persistence.EntityNotFoundException;
 import sdu.edu.kz.YandexEatsAnalogue.dto.MenuItemDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.MenuItem;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
@@ -34,7 +32,6 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public void saveMenuItem(MenuItemDTO menuItemDTO) {
         MenuItem menuItem = new MenuItem();
-
 
         Restaurant restaurant = new Restaurant();
         restaurant.setId(menuItemDTO.getRestaurantId());

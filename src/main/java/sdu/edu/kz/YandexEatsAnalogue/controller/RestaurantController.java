@@ -2,12 +2,10 @@ package sdu.edu.kz.YandexEatsAnalogue.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 

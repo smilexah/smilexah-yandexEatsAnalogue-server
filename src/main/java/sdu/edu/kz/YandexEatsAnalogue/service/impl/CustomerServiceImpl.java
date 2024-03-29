@@ -3,7 +3,6 @@ package sdu.edu.kz.YandexEatsAnalogue.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;

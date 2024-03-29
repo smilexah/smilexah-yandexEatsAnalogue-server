@@ -1,16 +1,12 @@
 package sdu.edu.kz.YandexEatsAnalogue.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sdu.edu.kz.YandexEatsAnalogue.dto.DeliveryPartnerDTO;
-import sdu.edu.kz.YandexEatsAnalogue.entity.DeliveryPartner;
 import sdu.edu.kz.YandexEatsAnalogue.service.DeliveryPartnerService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.stream.Collectors;
 
