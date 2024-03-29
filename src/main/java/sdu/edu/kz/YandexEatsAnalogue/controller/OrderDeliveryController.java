@@ -19,11 +19,7 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 @RequestMapping("/orderDeliveries")
 @RequiredArgsConstructor
 public class OrderDeliveryController {
-
-    @Autowired
     private final OrderDeliveryService orderDeliveryService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

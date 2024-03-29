@@ -19,8 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PaymentDetailServiceImpl implements PaymentDetailService {
-    @Autowired
-    private PaymentDetailRepository paymentDetailRepository;
+    private final PaymentDetailRepository paymentDetailRepository;
 
     @Override
     public List<PaymentDetail> findAllPaymentDetails() {

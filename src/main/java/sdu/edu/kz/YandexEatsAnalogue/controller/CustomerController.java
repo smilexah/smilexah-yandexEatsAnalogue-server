@@ -17,9 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    @Autowired
     private final CustomerService customerService;
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

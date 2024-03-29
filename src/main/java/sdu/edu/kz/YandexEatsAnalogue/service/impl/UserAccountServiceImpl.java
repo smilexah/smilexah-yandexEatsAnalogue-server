@@ -18,7 +18,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
-    @Autowired
     private final UserAccountRepository userAccountRepository;
 
     @Override

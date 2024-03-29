@@ -18,7 +18,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PromotionServiceImpl implements PromotionService {
-    @Autowired
     private final PromotionRepository promotionRepository;
 
     @Override

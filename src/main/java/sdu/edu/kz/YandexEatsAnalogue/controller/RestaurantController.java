@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
-    @Autowired
     private final RestaurantService restaurantService;
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

@@ -19,9 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    @Autowired
     private final CustomerRepository customerRepository;
-    @Autowired
     private final UserAccountRepository userAccountRepository;
 
     @Override

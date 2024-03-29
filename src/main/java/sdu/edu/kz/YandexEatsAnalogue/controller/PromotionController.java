@@ -18,11 +18,7 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 @RequestMapping("/promotions")
 @RequiredArgsConstructor
 public class PromotionController {
-
-    @Autowired
     private final PromotionService promotionService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

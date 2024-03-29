@@ -20,7 +20,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderPromotionServiceImpl implements OrderPromotionService {
-    @Autowired
     private final OrderPromotionRepository orderPromotionRepository;
 
     @Override

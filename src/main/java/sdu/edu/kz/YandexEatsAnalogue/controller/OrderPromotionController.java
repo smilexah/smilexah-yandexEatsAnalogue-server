@@ -1,6 +1,9 @@
 package sdu.edu.kz.YandexEatsAnalogue.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +17,21 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 @RequestMapping("/orderPromotions")
 @RequiredArgsConstructor
 public class OrderPromotionController {
-
-    @Autowired
     private final OrderPromotionService orderPromotionService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping
     public ResponseEntity<?> getAllOrderPromotions() {
         return new ResponseEntity<>(orderPromotionService.findAllOrderPromotions().stream()
-                .map(orderPromotion -> modelMapperUtil.toOrderPromotionDTO(orderPromotion))
-                .toArray(), HttpStatus.OK);
+                .map(orderPromotion -> modelMapperUtil.map(orderPromotion, OrderPromotionDTO.class))
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{orderPromotionId}")
     public ResponseEntity<OrderPromotionDTO> getOrderPromotionById(@PathVariable Long orderPromotionId) {
         return orderPromotionService.findOrderPromotionById(orderPromotionId)
-                .map(orderPromotion -> new ResponseEntity<>(modelMapperUtil.toOrderPromotionDTO(orderPromotion),
+                .map(orderPromotion -> new ResponseEntity<>(
+                        modelMapperUtil.map(orderPromotion, OrderPromotionDTO.class),
                         HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

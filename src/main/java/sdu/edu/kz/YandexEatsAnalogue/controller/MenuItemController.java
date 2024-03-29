@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/menuItems")
 @RequiredArgsConstructor
 public class MenuItemController {
-    @Autowired
     private final MenuItemService menuItemService;
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

@@ -11,6 +11,7 @@ import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.repository.OrderRepository;
+import sdu.edu.kz.YandexEatsAnalogue.repository.RestaurantRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.CustomerService;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderService;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
@@ -22,14 +23,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    @Autowired
     private final OrderRepository orderRepository;
-
-    @Autowired
     private final CustomerService customerService;
-
-    @Autowired
     private final RestaurantService restaurantService;
+
+//    private final RestaurantRepository restaurantRepository;
 
     @Override
     public List<Order> getAllOrders() {
@@ -95,6 +93,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+
+//        restaurantRepository.delete(order.getRestaurant());
+
+//        customerService.deleteCustomer(order.getCustomer().getCustomerId());
+//        restaurantService.deleteRestaurant(order.getRestaurant().getId());
+
         orderRepository.deleteById(id);
     }
 }

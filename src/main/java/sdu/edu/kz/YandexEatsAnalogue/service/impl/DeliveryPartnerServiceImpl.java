@@ -18,7 +18,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DeliveryPartnerServiceImpl implements DeliveryPartnerService {
-    @Autowired
     private final DeliveryPartnerRepository deliveryPartnerRepository;
 
     @Override

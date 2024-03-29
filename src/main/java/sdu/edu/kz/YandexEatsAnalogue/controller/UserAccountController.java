@@ -18,11 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/userAccounts")
 @RequiredArgsConstructor
 public class UserAccountController {
-
-    @Autowired
     private final UserAccountService userAccountService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
-    @Autowired
     private final OrderService orderService;
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

@@ -14,11 +14,7 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 @RequestMapping("/paymentDetails")
 @RequiredArgsConstructor
 public class PaymentDetailController {
-
-    @Autowired
     private final PaymentDetailService paymentDetailService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

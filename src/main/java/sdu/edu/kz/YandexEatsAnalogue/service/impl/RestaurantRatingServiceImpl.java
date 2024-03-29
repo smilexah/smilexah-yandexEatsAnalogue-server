@@ -20,7 +20,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RestaurantRatingServiceImpl implements RestaurantRatingService {
-    @Autowired
     private final RestaurantRatingRepository restaurantRatingRepository;
 
     @Override

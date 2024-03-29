@@ -19,7 +19,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MenuItemServiceImpl implements MenuItemService {
-    @Autowired
     private final MenuItemRepository menuItemRepository;
 
     @Override

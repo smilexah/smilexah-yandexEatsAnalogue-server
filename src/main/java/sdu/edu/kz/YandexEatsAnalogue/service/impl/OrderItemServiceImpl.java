@@ -20,7 +20,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
-    @Autowired
     private final OrderItemRepository orderItemRepository;
 
     @Override
@@ -46,6 +45,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItem.setOrder(order);
 
         orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setPriceAtOrderTime(orderItemDTO.getPriceAtOrderTime());
         orderItemRepository.save(orderItem);
     }
 
@@ -66,6 +66,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItem.setOrder(order);
 
         orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setPriceAtOrderTime(orderItemDTO.getPriceAtOrderTime());
         orderItemRepository.save(orderItem);
     }
 

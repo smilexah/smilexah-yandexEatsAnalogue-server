@@ -18,11 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/deliveryPartners")
 @RequiredArgsConstructor
 public class DeliveryPartnerController {
-
-    @Autowired
     private final DeliveryPartnerService deliveryPartnerService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

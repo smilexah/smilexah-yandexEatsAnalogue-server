@@ -21,8 +21,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderDeliveryServiceImpl implements OrderDeliveryService {
-    @Autowired
-    private OrderDeliveryRepository orderDeliveryRepository;
+    private final OrderDeliveryRepository orderDeliveryRepository;
 
     @Override
     public List<OrderDelivery> findAllOrderDeliveries() {

@@ -17,11 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/orderItems")
 @RequiredArgsConstructor
 public class OrderItemController {
-
-    @Autowired
     private final OrderItemService orderItemService;
-
-    @Autowired
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping

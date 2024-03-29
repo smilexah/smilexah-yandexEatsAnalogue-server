@@ -16,12 +16,8 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 @RequestMapping("/ratings")
 @RequiredArgsConstructor
 public class RestaurantRatingController {
-
-    @Autowired
-    private RestaurantRatingService restaurantRatingService;
-
-    @Autowired
-    private ModelMapperUtil modelMapperUtil;
+    private final RestaurantRatingService restaurantRatingService;
+    private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping
     public ResponseEntity<?> getAllRatings() {
