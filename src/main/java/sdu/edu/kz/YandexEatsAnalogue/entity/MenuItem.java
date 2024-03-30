@@ -21,11 +21,13 @@ public class MenuItem {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 254)
     private String name;
 
+    @Column(nullable = false)
     private Integer weight;
 
+    @Column(nullable = false)
     private Integer calories;
 
     @Column(nullable = false)
@@ -34,5 +36,6 @@ public class MenuItem {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false)
     private Boolean isAvailable;
 }

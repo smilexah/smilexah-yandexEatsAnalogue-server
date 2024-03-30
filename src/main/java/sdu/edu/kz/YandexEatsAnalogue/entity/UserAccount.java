@@ -25,8 +25,9 @@ public class UserAccount {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
     private Boolean isActive;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userAccount")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userAccount")
     private Customer customer;
 }

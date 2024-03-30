@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantRatingDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
@@ -65,6 +66,7 @@ public class RestaurantRatingServiceImpl implements RestaurantRatingService {
     }
 
     @Override
+    @Transactional
     public void deleteRating(Long id) {
         restaurantRatingRepository.deleteById(id);
     }

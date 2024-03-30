@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
@@ -89,9 +90,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void deleteOrder(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+//        Order order = orderRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
 //        restaurantRepository.delete(order.getRestaurant());
 

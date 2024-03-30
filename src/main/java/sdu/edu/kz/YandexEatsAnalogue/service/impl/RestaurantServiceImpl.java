@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.repository.RestaurantRepository;
@@ -60,6 +61,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    @Transactional
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
     }

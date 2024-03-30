@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderPromotionDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.OrderPromotion;
@@ -65,6 +66,7 @@ public class OrderPromotionServiceImpl implements OrderPromotionService {
     }
 
     @Override
+    @Transactional
     public void deleteOrderPromotion(Long id) {
         orderPromotionRepository.deleteById(id);
     }

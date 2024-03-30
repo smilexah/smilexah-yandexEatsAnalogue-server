@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -20,13 +22,16 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 254)
     private String name;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RestaurantRating> ratings = new ArrayList<>();
 
-    @Column(nullable = false, length = 255)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<MenuItem> menuItems = new HashSet<>();
+
+    @Column(nullable = false, length = 254)
     private String address;
 
     @Column(nullable = false, precision = 2, scale = 1)

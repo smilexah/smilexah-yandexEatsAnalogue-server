@@ -18,13 +18,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RestaurantRating> ratings = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount userAccount;
 

@@ -15,12 +15,12 @@ public class OrderPromotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderPromotionId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "order_id", referencedColumnName = "orderId", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "promotion_id", referencedColumnName = "promotionId", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "promotion_id", referencedColumnName = "promotionId", nullable = false)
     private Promotion promotion;
 
 }

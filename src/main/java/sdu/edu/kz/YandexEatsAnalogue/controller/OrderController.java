@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDTO;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
@@ -19,7 +20,7 @@ public class OrderController {
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping
-    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+    public ResponseEntity<?> getAllOrders() {
         return new ResponseEntity<>(orderService.getAllOrders().stream()
                 .map(order -> modelMapperUtil.map(order, OrderDTO.class))
                 .collect(Collectors.toList()), HttpStatus.OK);

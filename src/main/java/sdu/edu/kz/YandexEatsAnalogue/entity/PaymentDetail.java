@@ -19,7 +19,7 @@ public class PaymentDetail {
     private Long paymentId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "orderId", referencedColumnName = "orderId", nullable = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId", nullable = false)
     private Order order;
 
     @Column(nullable = false, precision = 10, scale = 2)

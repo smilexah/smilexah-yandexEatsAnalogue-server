@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
 import sdu.edu.kz.YandexEatsAnalogue.entity.UserAccount;
@@ -34,10 +35,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer saveCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
+
         customer.setCustomerId(customer.getCustomerId());
         customer.setName(customerDTO.getName());
         customer.setPhone(customerDTO.getPhone());
         customer.setAddress(customerDTO.getAddress());
+
         UserAccount userAccount = userAccountRepository.findById(customerDTO.getUserAccountId()).orElseThrow(() -> new EntityNotFoundException("User account not found"));
         customer.setUserAccount(userAccount);
         userAccount.setCustomer(customer);
@@ -59,6 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
