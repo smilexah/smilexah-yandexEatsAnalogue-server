@@ -11,7 +11,7 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/orderDeliveries")
+@RequestMapping("/deliveries")
 @RequiredArgsConstructor
 public class OrderDeliveryController {
     private final OrderDeliveryService orderDeliveryService;

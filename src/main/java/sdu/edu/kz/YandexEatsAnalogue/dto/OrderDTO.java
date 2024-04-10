@@ -22,7 +22,7 @@ public class OrderDTO {
     private String deliveryMethod;
     private String deliveryInstructions;
     private Integer deliveryTimeActual;
-    private Set<OrderItemDTO> orderItems;
-    private Set<OrderPromotionDTO> orderPromotions;
-    private Set<OrderDeliveryDTO> orderDeliveries;
+//    private Set<OrderItemDTO> orderItems;
+//    private Set<OrderPromotionDTO> orderPromotions;
+//    private Set<OrderDeliveryDTO> orderDeliveries;
 }

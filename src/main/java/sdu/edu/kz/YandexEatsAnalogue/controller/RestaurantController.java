@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
+import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
+import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +30,20 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable Long id) {
-        return restaurantService.findRestaurantById(id)
-                .map(restaurant -> new ResponseEntity<>(modelMapperUtil.map(restaurant, RestaurantDTO.class),
-                        HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable Long id) {
+        Restaurant restaurant = restaurantService.findRestaurantById(id)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
+                        "Restaurant with ID " + id + " not found"));
+
+        if (restaurant.getRatings() == null) {
+            restaurant.setRatings((List<RestaurantRating>) BigDecimal.ZERO);
+        }
+
+        BigDecimal averageRating = restaurant.calculateAverageRating();
+        RestaurantDTO restaurantDTO = modelMapperUtil.map(restaurant, RestaurantDTO.class);
+        restaurantDTO.setRating(averageRating);
+
+        return new ResponseEntity<>(restaurantDTO, HttpStatus.OK);
     }
 
     @PostMapping

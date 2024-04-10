@@ -3,13 +3,17 @@ package sdu.edu.kz.YandexEatsAnalogue.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
+import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 import sdu.edu.kz.YandexEatsAnalogue.repository.RestaurantRepository;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +40,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         restaurant.setName(restaurantDTO.getName());
         restaurant.setAddress(restaurantDTO.getAddress());
-        restaurant.setRating(restaurantDTO.getRating());
+        restaurant.setRatings((List<RestaurantRating>) restaurantDTO.getRating());
         restaurant.setDeliveryTimeEstimate(restaurantDTO.getDeliveryTimeEstimate());
         restaurant.setIsActive(restaurantDTO.getIsActive());
 
@@ -53,7 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         restaurant.setName(restaurantDTO.getName());
         restaurant.setAddress(restaurantDTO.getAddress());
-        restaurant.setRating(restaurantDTO.getRating());
+        restaurant.setRatings((List<RestaurantRating>) restaurantDTO.getRating());
         restaurant.setDeliveryTimeEstimate(restaurantDTO.getDeliveryTimeEstimate());
         restaurant.setIsActive(restaurantDTO.getIsActive());
 

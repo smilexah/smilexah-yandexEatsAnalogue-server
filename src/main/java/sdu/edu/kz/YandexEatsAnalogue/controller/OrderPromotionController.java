@@ -11,7 +11,7 @@ import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/orderPromotions")
+@RequestMapping("/order-promotions")
 @RequiredArgsConstructor
 public class OrderPromotionController {
     private final OrderPromotionService orderPromotionService;

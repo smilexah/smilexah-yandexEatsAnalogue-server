@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
+    private Long customerId;
     private Long userAccountId;
     private String name;
     private String phone;

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "menuItems")
+@Table(name = "menu_items")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

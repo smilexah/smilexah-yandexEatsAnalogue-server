@@ -9,7 +9,7 @@ import sdu.edu.kz.YandexEatsAnalogue.service.PaymentDetailService;
 import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
 
 @RestController
-@RequestMapping("/paymentDetails")
+@RequestMapping("/details")
 @RequiredArgsConstructor
 public class PaymentDetailController {
     private final PaymentDetailService paymentDetailService;

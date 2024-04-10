@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/userAccounts")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserAccountController {
     private final UserAccountService userAccountService;

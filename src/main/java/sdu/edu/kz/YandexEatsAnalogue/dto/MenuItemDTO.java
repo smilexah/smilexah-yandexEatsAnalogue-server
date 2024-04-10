@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuItemDTO {
+    private Long itemId;
     private Long restaurantId;
     private String name;
     private Integer weight;

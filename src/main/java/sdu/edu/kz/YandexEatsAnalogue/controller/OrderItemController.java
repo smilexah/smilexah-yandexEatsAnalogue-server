@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/orderItems")
+@RequestMapping("/order-items")
 @RequiredArgsConstructor
 public class OrderItemController {
     private final OrderItemService orderItemService;
     private final ModelMapperUtil modelMapperUtil;
 
     @GetMapping
-    public ResponseEntity<List<OrderItemDTO>> getAllOrderItems() {
+    public ResponseEntity<?> getAllOrderItems() {
         return new ResponseEntity<>(orderItemService.findAllOrderItems().stream()
                 .map(orderItem -> modelMapperUtil.map(orderItem, OrderItemDTO.class))
                 .collect(Collectors.toList()), HttpStatus.OK);
