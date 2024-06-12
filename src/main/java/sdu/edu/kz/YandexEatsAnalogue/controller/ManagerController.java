@@ -1,4 +1,4 @@
 package sdu.edu.kz.YandexEatsAnalogue.controller;
 
-public class CustomerController {
+public class ManagerController {
 }

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantRatingDTO;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
+import sdu.edu.kz.YandexEatsAnalogue.entity.Account;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 import sdu.edu.kz.YandexEatsAnalogue.repository.RestaurantRatingRepository;
@@ -39,8 +39,7 @@ public class RestaurantRatingServiceImpl implements RestaurantRatingService {
         restaurant.setId(ratingDTO.getRestaurantId());
         restaurantRating.setRestaurant(restaurant);
 
-        Customer customer = new Customer();
-        customer.setCustomerId(ratingDTO.getCustomerId());
+        Account customer = new Account();
         restaurantRating.setCustomer(customer);
 
         restaurantRating.setRating(ratingDTO.getRating());

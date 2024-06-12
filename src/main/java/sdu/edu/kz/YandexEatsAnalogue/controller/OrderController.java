@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sdu.edu.kz.YandexEatsAnalogue.dto.CustomerDTO;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDTO;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderService;
-import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
+import sdu.edu.kz.YandexEatsAnalogue.utils.mapper.ModelMapperUtil;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController

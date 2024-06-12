@@ -1,8 +1,6 @@
 package sdu.edu.kz.YandexEatsAnalogue.dto;
 
 import lombok.*;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

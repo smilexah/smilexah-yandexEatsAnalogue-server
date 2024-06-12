@@ -6,9 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderItemDTO;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderItemService;
-import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
+import sdu.edu.kz.YandexEatsAnalogue.utils.mapper.ModelMapperUtil;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,6 +30,8 @@ public class OrderItemController {
                 .map(orderItem -> ResponseEntity.ok(modelMapperUtil.map(orderItem, OrderItemDTO.class)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
 
     @PostMapping
     public ResponseEntity<OrderItemDTO> createOrderItem(@RequestBody OrderItemDTO orderItemDTO) {

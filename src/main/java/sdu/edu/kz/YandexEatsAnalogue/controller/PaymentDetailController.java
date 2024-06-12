@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sdu.edu.kz.YandexEatsAnalogue.dto.PaymentDetailDTO;
 import sdu.edu.kz.YandexEatsAnalogue.service.PaymentDetailService;
-import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
+import sdu.edu.kz.YandexEatsAnalogue.utils.mapper.ModelMapperUtil;
 
 @RestController
 @RequestMapping("/details")

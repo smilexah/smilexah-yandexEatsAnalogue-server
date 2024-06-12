@@ -24,7 +24,7 @@ public class RestaurantRating {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private Account customer;
 
     @Column(nullable = false, precision = 2, scale = 1)
     private BigDecimal rating;

@@ -9,7 +9,7 @@ import sdu.edu.kz.YandexEatsAnalogue.dto.RestaurantDTO;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.entity.RestaurantRating;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
-import sdu.edu.kz.YandexEatsAnalogue.utils.ModelMapperUtil;
+import sdu.edu.kz.YandexEatsAnalogue.utils.mapper.ModelMapperUtil;
 
 import java.math.BigDecimal;
 import java.util.List;

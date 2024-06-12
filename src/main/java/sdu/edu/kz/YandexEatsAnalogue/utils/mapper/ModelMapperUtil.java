@@ -1,4 +1,4 @@
-package sdu.edu.kz.YandexEatsAnalogue.utils;
+package sdu.edu.kz.YandexEatsAnalogue.utils.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

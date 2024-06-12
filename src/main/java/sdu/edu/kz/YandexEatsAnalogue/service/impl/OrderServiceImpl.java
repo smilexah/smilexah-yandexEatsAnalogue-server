@@ -6,11 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sdu.edu.kz.YandexEatsAnalogue.dto.OrderDTO;
-import sdu.edu.kz.YandexEatsAnalogue.entity.Customer;
+import sdu.edu.kz.YandexEatsAnalogue.entity.Account;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Order;
 import sdu.edu.kz.YandexEatsAnalogue.entity.Restaurant;
 import sdu.edu.kz.YandexEatsAnalogue.repository.OrderRepository;
-import sdu.edu.kz.YandexEatsAnalogue.service.CustomerService;
+import sdu.edu.kz.YandexEatsAnalogue.service.AccountService;
 import sdu.edu.kz.YandexEatsAnalogue.service.OrderService;
 import sdu.edu.kz.YandexEatsAnalogue.service.RestaurantService;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-    private final CustomerService customerService;
+    private final AccountService accountService; // Changed from CustomerService to AccountService
     private final RestaurantService restaurantService;
 
 //    private final RestaurantRepository restaurantRepository;
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderId(order.getOrderId());
 
-        Customer customer = customerService.findCustomerById(orderDTO.getCustomerId())
+        Account customer = accountService.findUserAccountById(orderDTO.getCustomerId())
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
         order.setCustomer(customer);
 
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order order = orderOptional.get();
 
-        Customer customer = customerService.findCustomerById(orderDTO.getCustomerId())
+        Account customer = accountService.findUserAccountById(orderDTO.getCustomerId())
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
         order.setCustomer(customer);
 
