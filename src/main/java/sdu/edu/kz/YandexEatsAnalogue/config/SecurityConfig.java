@@ -14,12 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String[] WHITELIST = {
+            "/",
             "/error",
             "/registration",
             "/registration/**",
             "/login",
             "/logout",
-            "/",
             "/restaurants",
             "/restaurants/**",
             "/menu-items",

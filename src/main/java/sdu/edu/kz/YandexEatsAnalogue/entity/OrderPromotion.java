@@ -22,5 +22,4 @@ public class OrderPromotion {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "promotion_id", referencedColumnName = "promotionId", nullable = false)
     private Promotion promotion;
-
 }
